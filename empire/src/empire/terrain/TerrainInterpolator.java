@@ -1,5 +1,7 @@
 package empire.terrain;
 
+import empire.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,20 +37,24 @@ public class TerrainInterpolator {
         }
     }
 
-    private void doDiamonds(int cellSize) {
+    private void doSquares(int cellSize) {
         for (int x = 0; x < size - 1; x += cellSize) {
             for (int y = 0; y < size - 1; y += cellSize) {
-                doDiamond(x, y, cellSize + 1);
+                doSquare(new Point(x, y), cellSize + 1);
             }
         }
     }
 
-    private void doSquares(int cellSize) {
+    private void doDiamonds(int cellSize) {
         for (int x = 0; x < size - 1; x += cellSize) {
             for (int y = 0; y < size - 1; y += cellSize) {
-                doSquare(x, y, cellSize + 1);
+                doDiamond(new Point(x, y), cellSize + 1);
             }
         }
+    }
+
+    private void doSquare(Point point, int size) {
+        doSquare(point.x, point.y, size);
     }
 
     void doSquare(int x, int y, int size) {
@@ -56,6 +62,10 @@ public class TerrainInterpolator {
         int mid = len / 2;
 
         set(x + mid, y + mid, average(x, y, x + len, y, x, y + len, x + len, y + len));
+    }
+
+    private void doDiamond(Point point, int size) {
+        doDiamond(point.x, point.y, size);
     }
 
     void doDiamond(int x, int y, int size) {
